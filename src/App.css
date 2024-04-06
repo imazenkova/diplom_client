@@ -1,0 +1,15 @@
+.container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+
+/* Не понятно как сделать стандартными компонентами высоту 100%. поэтому использовал классы для andtab */
+.ant-tabs-content {
+  height: calc(100%);
+}
