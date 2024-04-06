@@ -6,8 +6,14 @@ import NotFoundUrl from "../layout/NotFoundUrl";
 import PriceComparatorTemplate from "../../pages/price-comparator/PriceComparatorTemplate";
 import ResorceTemplate from "../../pages/price-comparator/ResorceTemplate";
 import { AppSettig } from "../../app.setting";
+import AdminPanel from "../admin/adminPanel";
+import { ContextType } from "../../Reduser";
+import { AppContext } from "../../AppContext";
+import { useContext } from "react";
 
 const ContentRoutes: React.FC = () => {
+  const { state } = useContext<ContextType>(AppContext)
+  const userRole = state?.profile?.user.role
   return (
     <>
       <Routes>
@@ -20,6 +26,9 @@ const ContentRoutes: React.FC = () => {
         <Route path={AppSettig.routePath.templateEdit} element={<ResorceTemplate editMode={true} />}></Route>
         {/* <Route path="/create" element={<ASINTabTable />}></Route> */}
         <Route path="/test" element={<Test />}></Route>
+        {userRole === 'admin' && (
+          <Route path="/users_list" element={<AdminPanel />}></Route>
+        )}
         <Route path="*" element={<NotFoundUrl />} />
       </Routes>
     </>

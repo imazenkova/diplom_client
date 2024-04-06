@@ -179,7 +179,7 @@ export const ru = {
     user: "Пользователь",
     profile: "Профиль",
     apiProfile: "API доступ",
-
+    adminPanel: "Панель администратора"
   },
   filter: {
     name: "Фильтр",

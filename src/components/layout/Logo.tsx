@@ -8,9 +8,9 @@ const Logo: React.FC<{ collapsed: boolean }> = (props) => {
   const { collapsed } = props
   return <>
     <span style={{ fontSize: '1.1rem', fontWeight: 'bold', paddingLeft: '0.8rem', color: themeDef.antd.colorPrimary }}>
-      {!collapsed && <span style={{ color: themeDef.app.logoPrimaryColor, fontSize: '1.1rem' }}>ASIN </span>}
+      {!collapsed && <span style={{ color: themeDef.app.logoPrimaryColor, fontSize: '1.1rem' }}>Market </span>}
       <HeatMapOutlined style={{ transform: 'rotate(20deg)', fontSize: CSSU.calc(buttonRightIcon.fontSize, v => v * 1.2), color: themeDef.app.logoPrimaryColor }} />
-      {!collapsed && <span style={{}}>e<span style={{}}>X</span>pert</span>}
+      {!collapsed && <span style={{}}><span style={{}}></span>Spy</span>}
     </span>
   </>
 }

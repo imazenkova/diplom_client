@@ -176,6 +176,7 @@ export const en: Translation = {
     user: "User",
     profile: "Profile",
     apiProfile: "API Access",
+    adminPanel: "Admin Panel"
   },
   filter: {
     name: "Filter",

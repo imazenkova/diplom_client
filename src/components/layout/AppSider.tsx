@@ -1,11 +1,11 @@
 import {
   RadarChartOutlined,
-//  TeamOutlined,
+  TeamOutlined,
   MoneyCollectOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
-import React, { CSSProperties, useContext, useState } from 'react';
+import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { AppContext } from '../../AppContext';
 import { ContextType } from '../../Reduser';
@@ -36,7 +36,7 @@ const AppSider: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [collapsedWidth, setCollapsedWidth] = useState(80); //Согласно доки по умолчанию
   const { state } = useContext<ContextType>(AppContext)
-
+  const userRole = state?.profile?.user.role
   const navigate = useNavigate();
   const sider = state?.l.sider;
   const styleIco = { fontSize: '1.3rem' }
@@ -46,12 +46,10 @@ const AppSider: React.FC = () => {
       getItem(sider?.priceComparatorTemplate, '/pricecomparator/template'),
 
     ]),
-
-    // getItem(sider?.competitors, 'sub2', <TeamOutlined style={styleIco} />, [
-    //   getItem(sider?.othersCompetitors, '/profile'),
-    //   getItem(sider?.analysisСompetitors, '/inventory'),
-    // ]),
   ];
+  if (userRole === 'admin') {
+      menuItems.push(getItem(sider?.adminPanel, '/users_list', <RadarChartOutlined style={styleIco} />));
+    }
 
 
   return (
