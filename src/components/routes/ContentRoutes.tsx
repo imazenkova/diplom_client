@@ -1,3 +1,4 @@
+import React, { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import Tasks from "../../pages/tasks/Tasks";
 import Test from "../../pages/tasks/Test";
@@ -9,30 +10,101 @@ import { AppSettig } from "../../app.setting";
 import AdminPanel from "../admin/adminPanel";
 import { ContextType } from "../../Reduser";
 import { AppContext } from "../../AppContext";
-import { useContext } from "react";
+import BlockedAccountPopup from "../blocked-popup/BlockedPopup";
 
 const ContentRoutes: React.FC = () => {
-  const { state } = useContext<ContextType>(AppContext)
-  const userRole = state?.profile?.user.role
+  const { state } = useContext<ContextType>(AppContext);
+  const userStatus = state?.profile?.user.status;
+
   return (
     <>
       <Routes>
-        <Route path='/' element={<Navigate to="/tasks" />} />
-        <Route path="/tasks" element={<Tasks />}></Route>
-        <Route path="/inventory" element={<Test />}></Route>
-        <Route path="/pricecomparator/template" element={<PriceComparatorTemplate />}></Route>
-        <Route path="/tasks/report" element={<ReportTask />}></Route>
-        <Route path="/pricecomparator/template/create" element={<ResorceTemplate editMode={false} />}></Route>
-        <Route path={AppSettig.routePath.templateEdit} element={<ResorceTemplate editMode={true} />}></Route>
+        <Route path="/" element={<Navigate to="/tasks" />} />
+        <Route
+          path="/tasks"
+          element={
+            userStatus === 1 ? (
+              <BlockedAccountPopup />
+            ) : (
+              <Tasks />
+            )
+          }
+        />
+        <Route
+          path="/inventory"
+          element={
+            userStatus === 1 ? (
+              <BlockedAccountPopup />
+            ) : (
+              <Test />
+            )
+          }
+        />
+        <Route
+          path="/pricecomparator/template"
+          element={
+            userStatus === 1 ? (
+              <BlockedAccountPopup />
+            ) : (
+              <PriceComparatorTemplate />
+            )
+          }
+        />
+        <Route
+          path="/tasks/report"
+          element={
+            userStatus === 1 ? (
+              <BlockedAccountPopup />
+            ) : (
+              <ReportTask />
+            )
+          }
+        />
+        <Route
+          path="/pricecomparator/template/create"
+          element={
+            userStatus === 1 ? (
+              <BlockedAccountPopup />
+            ) : (
+              <ResorceTemplate editMode={false} />
+            )
+          }
+        />
+        <Route
+          path={AppSettig.routePath.templateEdit}
+          element={
+            userStatus === 1 ? (
+              <BlockedAccountPopup />
+            ) : (
+              <ResorceTemplate editMode={true} />
+            )
+          }
+        />
         {/* <Route path="/create" element={<ASINTabTable />}></Route> */}
-        <Route path="/test" element={<Test />}></Route>
-        {userRole === 'admin' && (
-          <Route path="/users_list" element={<AdminPanel />}></Route>
-        )}
+        <Route
+          path="/test"
+          element={
+            userStatus === 1 ? (
+              <BlockedAccountPopup />
+            ) : (
+              <Test />
+            )
+          }
+        />
+        <Route
+          path="/users_list"
+          element={
+            userStatus === 1 ? (
+              <BlockedAccountPopup />
+            ) : (
+              <AdminPanel />
+            )
+          }
+        />
         <Route path="*" element={<NotFoundUrl />} />
       </Routes>
     </>
-  )
+  );
 };
 
 export default ContentRoutes;
