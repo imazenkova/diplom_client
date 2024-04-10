@@ -1,6 +1,6 @@
 import {
   RadarChartOutlined,
-  TeamOutlined,
+  PieChartOutlined,
   MoneyCollectOutlined
 } from '@ant-design/icons';
 import type { MenuProps } from 'antd';
@@ -46,6 +46,7 @@ const AppSider: React.FC = () => {
       getItem(sider?.priceComparatorTemplate, '/pricecomparator/template'),
 
     ]),
+    getItem(sider?.analytics, '/analytics', <PieChartOutlined style={styleIco} />),
   ];
   if (userRole === 'admin') {
       menuItems.push(getItem(sider?.adminPanel, '/users_list', <RadarChartOutlined style={styleIco} />));

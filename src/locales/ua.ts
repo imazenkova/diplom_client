@@ -176,7 +176,8 @@ export const ua: Translation = {
     user: "Користувач",
     profile: "Профіль",
     apiProfile: "Доступ до API",
-    adminPanel: "Панель администратора"
+    adminPanel: "Панель администратора",
+    analytics:"Аналітика"
   },
   filter: {
     name: "Фільтр",

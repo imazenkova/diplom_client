@@ -11,6 +11,8 @@ import AdminPanel from "../admin/adminPanel";
 import { ContextType } from "../../Reduser";
 import { AppContext } from "../../AppContext";
 import BlockedAccountPopup from "../blocked-popup/BlockedPopup";
+import { UserStatus } from "../../shared.lib/user-model";
+import Analytics from "../analytics/analytics";
 
 const ContentRoutes: React.FC = () => {
   const { state } = useContext<ContextType>(AppContext);
@@ -23,7 +25,7 @@ const ContentRoutes: React.FC = () => {
         <Route
           path="/tasks"
           element={
-            userStatus === 1 ? (
+            userStatus === UserStatus.Block ? (
               <BlockedAccountPopup />
             ) : (
               <Tasks />
@@ -33,7 +35,7 @@ const ContentRoutes: React.FC = () => {
         <Route
           path="/inventory"
           element={
-            userStatus === 1 ? (
+            userStatus === UserStatus.Block ? (
               <BlockedAccountPopup />
             ) : (
               <Test />
@@ -43,7 +45,7 @@ const ContentRoutes: React.FC = () => {
         <Route
           path="/pricecomparator/template"
           element={
-            userStatus === 1 ? (
+            userStatus === UserStatus.Block ? (
               <BlockedAccountPopup />
             ) : (
               <PriceComparatorTemplate />
@@ -53,7 +55,7 @@ const ContentRoutes: React.FC = () => {
         <Route
           path="/tasks/report"
           element={
-            userStatus === 1 ? (
+            userStatus === UserStatus.Block ? (
               <BlockedAccountPopup />
             ) : (
               <ReportTask />
@@ -63,17 +65,27 @@ const ContentRoutes: React.FC = () => {
         <Route
           path="/pricecomparator/template/create"
           element={
-            userStatus === 1 ? (
+            userStatus === UserStatus.Block ? (
               <BlockedAccountPopup />
             ) : (
               <ResorceTemplate editMode={false} />
             )
           }
         />
+         <Route
+          path="/analytics"
+          element={
+            userStatus === UserStatus.Block ? (
+              <BlockedAccountPopup />
+            ) : (
+              <Analytics />
+            )
+          }
+        />
         <Route
           path={AppSettig.routePath.templateEdit}
           element={
-            userStatus === 1 ? (
+            userStatus === UserStatus.Block ? (
               <BlockedAccountPopup />
             ) : (
               <ResorceTemplate editMode={true} />
@@ -84,7 +96,7 @@ const ContentRoutes: React.FC = () => {
         <Route
           path="/test"
           element={
-            userStatus === 1 ? (
+            userStatus === UserStatus.Block ? (
               <BlockedAccountPopup />
             ) : (
               <Test />
@@ -94,7 +106,7 @@ const ContentRoutes: React.FC = () => {
         <Route
           path="/users_list"
           element={
-            userStatus === 1 ? (
+            userStatus === UserStatus.Block ? (
               <BlockedAccountPopup />
             ) : (
               <AdminPanel />

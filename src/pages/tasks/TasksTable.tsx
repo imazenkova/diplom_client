@@ -169,7 +169,7 @@ const TasksTable: React.FC<{ refresh: boolean, notificationApp: NotificationApp 
     const fetchData = async () => {
       // Предположим, что это API вызов для получения данных
       const result = await TaskApi.getListTaskInfo({
-        state: [0]//, StateTaskUls.lessIsNotComplite() - 1]
+         state: [0]//, StateTaskUls.lessIsNotComplite() - 1]
       });
       //const result = await TaskApi.getActiveListTaskInfo();
       setData(result.map(v => { return { ...v, key: v.id } })); // Задаем данные, полученные из API
@@ -179,7 +179,7 @@ const TasksTable: React.FC<{ refresh: boolean, notificationApp: NotificationApp 
 
     const interval = setInterval(fetchData, 2000); // обновляет данные каждые 2 секунд
     return () => clearInterval(interval); // очищает таймер при размонтировании компонента
-  }, [refresh]); // [] означает, что этот useEffect будет запущен только один раз при монтировании компонента
+  }, [refresh]);
 
   useEffect(() => {
     if (idTask >= 0) {
