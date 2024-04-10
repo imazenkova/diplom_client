@@ -43,7 +43,8 @@ const Analytics = () => {
     const { message } = App.useApp();
     const { state, dispatch } = useContext<ContextType>(AppContext);
     const userId = state?.profile?.user.id!;
-    
+    const typesLocal= state?.l.tasks.type;
+
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -70,6 +71,52 @@ const Analytics = () => {
     }, [userId]);
 
     const typesArray: string[] = allTasks.map(obj => obj.type);
+
+    for (let i = 0; i < typesArray.length; i++) {
+      switch (typesArray[i]) {
+        case "none":
+          typesArray[i] = typesLocal?.none!;
+          break;
+        case "readTestTask":
+          typesArray[i] = typesLocal?.readTestTask!;
+          break;
+        case "readTestUnits":
+          typesArray[i] = typesLocal?.readTestUnits!;
+          break;
+        case "readAsinsAMZ":
+          typesArray[i] = typesLocal?.readAsinsAMZ!;
+          break;
+        case "readUrlsAMZ":
+          typesArray[i] = typesLocal?.readUrlsAMZ!;
+          break;
+        case "readListFromUrlAMZ":
+          typesArray[i] = typesLocal?.readListFromUrlAMZ!;
+          break;
+        case "readUrlsEbay":
+          typesArray[i] =typesLocal?.readUrlsEbay!;
+          break;
+        case "readListFromUrlEbay":
+          typesArray[i] =typesLocal?.readListFromUrlEbay!;
+          break;
+        case "readPagesFromSellerEbay":
+          typesArray[i] = typesLocal?.readPagesFromSellerEbay!;
+          break;
+        case "comparePricesWithKeepa":
+          typesArray[i] = typesLocal?.comparePricesWithKeepa!;
+          break;
+        case "readListFromQueryWB":
+          typesArray[i] =typesLocal?.readListFromQueryWB!;
+          break;
+        case "existListFromQuerySuplWB":
+          typesArray[i] =typesLocal?.existListFromQuerySuplWB!;
+          break;
+        case "posListFromQueryWB":
+          typesArray[i] = typesLocal?.posListFromQueryWB!;
+          break;
+        default:
+          break;
+      }
+    }
     const countArray: number[] = allTasks.map(obj => obj.count);
     const data = {
         labels: typesArray,
@@ -88,7 +135,11 @@ const Analytics = () => {
       backgroundColor: themeDef.app.backgroundColor, boxShadow: themeDef.antd.boxShadowSecondary,
       borderRadius: themeDef.antd.borderRadius
     }} >
-      <Doughnut data={data} />
+        <div  style={{
+      height: '100%', width: '50%',
+    }}><Doughnut data={data} /></div>
+        <div></div>
+
     </div>
   );
 };
