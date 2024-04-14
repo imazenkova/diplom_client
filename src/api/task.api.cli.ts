@@ -16,7 +16,7 @@ export const TaskApi = {
     return res.data
   },
 
-  getListTaskInfo: async (tasks: TaskInfoFilteredRequest): Promise<ITaskInfo[]> => {
+  getListTaskInfo: async (tasks: any): Promise<ITaskInfo[]> => {
     const res = await axios.post(ApiTask.getListTaskInfo.path, tasks, getAxiosSettings())
     return res.data
   },

@@ -64,6 +64,8 @@ const AdminPanel = () => {
       title: 'First Name',
       dataIndex: 'firstName',
       key: 'firstName',
+      // sorter: (a:any, b:any) => a.name.length - b.name.length,
+      // sortDirections: ['descend'],
     },
     {
       title: 'Last Name',

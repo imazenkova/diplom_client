@@ -48,7 +48,7 @@ const TaskTableDesc: React.FC<TaskTableDescProps> = ({ id, state }) => {
         <Descriptions.Item label={state.l.columns.name}>{data.name}</Descriptions.Item>
         <Descriptions.Item label={state.l.columns.description}>{data.desc}</Descriptions.Item>
         <Descriptions.Item label={state!.l.taskTableDesc.typeOfTask}>{data.type}: {state.l.tasks.type[data.type]}</Descriptions.Item>
-        <Descriptions.Item label={state!.l.taskTableDesc.stateOfTask}>{stateStr}</Descriptions.Item>
+        {/* <Descriptions.Item label={state!.l.taskTableDesc.stateOfTask}>{stateStr}</Descriptions.Item> */}
         <Descriptions.Item label={state!.l.columns.progress}>
           {data.proccess ? `${data.proccess.done} / ${data.proccess.all} (${parseFloat(((data.proccess.done / data.proccess.all) * 100).toFixed(2))}%)` : 'Not available'}
         </Descriptions.Item>
@@ -69,13 +69,13 @@ const TaskTableDesc: React.FC<TaskTableDescProps> = ({ id, state }) => {
       {data.state >= StateTask.complite && <Descriptions title="Task Result" layout="vertical">
         {<Descriptions.Item label="Result Data"><Button type='link' onClick={() => nav(`/tasks/report?id=${id}`)}>Open</Button></Descriptions.Item>}
         {<Descriptions.Item label="Task Result [Count]">{data.resultDataInfo?.rowsCount}</Descriptions.Item>}
-        {<Descriptions.Item label="Task Result [Date]">{new Date(data.resultDataInfo?.lastChange!).toLocaleString()}</Descriptions.Item>}
-        {<Descriptions.Item label="Task Result [Obj]">{formatObj(data.taskResult, App.useApp,state)}</Descriptions.Item>}
+        {/* {<Descriptions.Item label="Task Result [Date]">{new Date(data.resultDataInfo?.lastChange!).toLocaleString()}</Descriptions.Item>} */}
+        {/* {<Descriptions.Item label="Task Result [Obj]">{formatObj(data.taskResult, App.useApp,state)}</Descriptions.Item>} */}
       </Descriptions>}
 
-      {data.state >= StateTask.complite && <Descriptions title="Task Result Error" layout="vertical">
-        {data.state >= StateTask.complite && <Descriptions.Item label="Result Errors">{formatObj(data.resultErrors, App.useApp,state)}</Descriptions.Item>}
-      </Descriptions>}
+      {/* {data.state >= StateTask.complite && <Descriptions title="Task Result Error" layout="vertical"> */}
+        {/* {data.state >= StateTask.complite && <Descriptions.Item label="Result Errors">{formatObj(data.resultErrors, App.useApp,state)}</Descriptions.Item>} */}
+      {/* </Descriptions>} */}
 
     </>
   );

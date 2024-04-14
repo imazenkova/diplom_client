@@ -13,6 +13,7 @@ import { AppContext } from "../../AppContext";
 import BlockedAccountPopup from "../blocked-popup/BlockedPopup";
 import { UserStatus } from "../../shared.lib/user-model";
 import Analytics from "../analytics/analytics";
+import TestTable from "../../pages/tasks/Search";
 
 const ContentRoutes: React.FC = () => {
   const { state } = useContext<ContextType>(AppContext);
@@ -99,7 +100,7 @@ const ContentRoutes: React.FC = () => {
             userStatus === UserStatus.Block ? (
               <BlockedAccountPopup />
             ) : (
-              <Test />
+              <TestTable />
             )
           }
         />

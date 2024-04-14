@@ -18,6 +18,7 @@ export const formatObj  = (obj: any, app: typeof App.useApp,state:GlobalState) =
     modal.success({
       title: `${state!.l.formatObject.fullText}`,
       content: <pre>{content}</pre>,
+      width:'60%'
     });
   };
 

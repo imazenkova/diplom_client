@@ -65,6 +65,7 @@ export interface ITaskInfo {
   timeCreate: number,
   timeStart: number,
   timeEnd: number,
+  resultErrors?:  IUnitOutcomeUid[],
 }
 
 export interface IResultDataInfo {
@@ -132,7 +133,7 @@ export interface AddTaskRequest extends Pick<ITaskInfoRes, 'name' | 'desc' | 'ty
 
 export type GetTaskInfo = Pick<ITaskInfo, 'id'>;
 
-export type TaskInfoFilteredRequest = FilterType<Pick<ITaskInfo, 'type' | 'state' | 'timeStart' | 'timeEnd' | 'timeCreate'>>;
+export type TaskInfoFilteredRequest = FilterType<Pick<ITaskInfo, 'type' | 'state' | 'timeStart' | 'timeEnd' | 'timeCreate' | 'name'>>;
 
 export interface GetTaskInfoRequest extends Pick<ITaskInfo, 'id'> {
   fieldsAnswer: optionalTaskInfoResKeysType[]
