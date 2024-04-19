@@ -86,13 +86,6 @@ const AdminPanel = () => {
       key: 'email',
     },
     {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      render: (status: UserStatus) => {
-        return status === UserStatus.Active ? 'Active' : 'Blocked';
-      },
-    },{
       title: 'Analytics',
       key: 'analytics',
       render: ( user: UserModel) => {
@@ -122,6 +115,14 @@ const AdminPanel = () => {
             )}
           </span>
         );
+      },
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status: UserStatus) => {
+        return status === UserStatus.Active ? 'Active' : 'Blocked';
       },
     },
   ];

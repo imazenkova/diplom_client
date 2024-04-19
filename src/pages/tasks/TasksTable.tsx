@@ -218,10 +218,9 @@ const TasksTable: React.FC<{ refresh: boolean, notificationApp: NotificationApp 
   });
 
   const columns: TableColumnsType<any> = [
-    { title: 'Id', dataIndex: 'id' },
     { title: `${state!.l.columns.name}`, dataIndex: 'name',  ...getColumnSearchProps('name'), },
     // {title: 'TimeStart', dataIndex: 'timeStart',render: (data: number) => data ? new Date(data).toLocaleString() : '',},
-    { title: 'TypeTask', dataIndex: 'type', render: (t: TypeTask) => state?.l.tasks.type[t] , ...getColumnSearchProps('type'),},
+    { title: 'TypeTask', dataIndex: 'type', render: (t: TypeTask) => state?.l.tasks.type[t] },
     {
       title: `${state!.l.columns.state}`, dataIndex: 'state', key: 'state',
       render: (s: number) => {

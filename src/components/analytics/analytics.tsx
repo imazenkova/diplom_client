@@ -21,6 +21,7 @@ import { ContextType, State } from '../../Reduser';
 import { AppContext } from '../../AppContext';
 import { ITaskInfo } from '../../shared.lib/api/task.api';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { AuthApi } from '../../api/auth.api.cli';
 
 ChartJS.register(
     CategoryScale,
@@ -52,32 +53,31 @@ ChartJS.register(
     
     const location = useLocation();
     const params = new URLSearchParams(location.search);
-    const userIDParam = params.get('userId')
+    const userIDParam =Number( params.get('userId'))
 
     const navigate = useNavigate()
-  
+    const fetchData = async () => {
+      try {
+
+        const result = await TaskApi.getListTaskInfo({id:userIDParam});
+        const count = result.reduce((accumulator:any, currentObject) => {
+          const existingObject:any = accumulator.find((obj:ITaskInfo )=> obj.type === currentObject.type);
+        
+          if (existingObject) {
+            existingObject.count++;
+          } else {
+            accumulator.push({ type: currentObject.type, count: 1 });
+          }
+        
+          return accumulator;
+        }, []);
+        setTasks(count);
+      } catch (error) {
+        message.success(ApiError.FromAxios(error).getFullMessage(','), 20);
+      }
+    };
     useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const result = await TaskApi.getListTaskInfo({id:userIDParam});
-          const count = result.reduce((accumulator:any, currentObject) => {
-            const existingObject:any = accumulator.find((obj:ITaskInfo )=> obj.type === currentObject.type);
-          
-            if (existingObject) {
-              existingObject.count++;
-            } else {
-              accumulator.push({ type: currentObject.type, count: 1 });
-            }
-          
-            return accumulator;
-          }, []);
-          setTasks(count);
-        } catch (error) {
-          message.success(ApiError.FromAxios(error).getFullMessage(','), 20);
-        }
-      };
-    
-     
+  
       fetchData();
     }, [userId]);
 
@@ -140,20 +140,39 @@ ChartJS.register(
       };
 
   return (
+    <div>
+    <div 
+    style={{paddingBottom:'1%',display:"flex",justifyContent:'center'}}>
+    <Button onClick={ ()=>{navigate(`/tasks?userId=${userId}`)}}>Open Tasks</Button>
+
+</div>
+
     <div
     style={{
       height: '100%', width: '100%',
       backgroundColor: themeDef.app.backgroundColor, boxShadow: themeDef.antd.boxShadowSecondary,
-      borderRadius: themeDef.antd.borderRadius
+      borderRadius: themeDef.antd.borderRadius,
+      display: 'flex',
+      flexDirection: 'row',
     }} >
         <div  style={{
       height: '100%', width: '50%',
-    }}><Doughnut data={data} /></div>
-        <div>
-          <Button onClick={ ()=>{navigate(`/tasks?userId=${userId}`)}}>Open Tasks</Button>
-        </div>
+      alignContent:'center', 
+    }}>
+      <Doughnut data={data} />
 
     </div>
+    <div  style={{
+      height: '100%', width: '50%',
+      alignContent:'center', 
+    }}>
+      <Doughnut data={data} />
+
+    </div>
+  
+
+  </div>
+  </div>
   );
 };
 

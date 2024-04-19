@@ -347,7 +347,7 @@ export const ru = {
     progress: "Прогресс",
     report: "Отчет",
     repeat: "Повторить",
-    cancel: "Заверишить",
+    cancel: "Завершить",
     description: "Описание",
     fields: "Поля",
     sellersFields: "Поля поставщиков",
