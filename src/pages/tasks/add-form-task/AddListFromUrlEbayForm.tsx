@@ -15,7 +15,11 @@ export default class AddListFromUrlEbayForm extends BaseTaskForm {
     const inputData: IReadListFromUrlEbay = {
       url: vals.url,
     }
-    return inputData
+    if (!inputData.url.includes('ebay.com')) {
+      inputData.url = '';
+    }
+  
+    return inputData;
   }
 
   getTypeTask = (): TypeTask => 'readListFromUrlEbay'
@@ -29,7 +33,7 @@ export default class AddListFromUrlEbayForm extends BaseTaskForm {
         label={this.loc?.tasks.enterUrlList}
         rules={[{ required: true }]}
       >
-        <Input />
+        <Input type="text" />
       </Form.Item>
 
     </>

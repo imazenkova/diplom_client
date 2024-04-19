@@ -1,4 +1,4 @@
-import { Form, Input } from 'antd';
+import { Form, Input,App } from 'antd';
 import { JSX } from 'react/jsx-runtime';
 import { TypeTask } from '../../../shared.lib/api/task.api';
 import { IReadUrlsEbay } from '../../../shared.lib/api/task.data';
@@ -11,11 +11,28 @@ export default class AddURLsEbayForm extends BaseTaskForm {
     this.width = 850
   }
 
-  getInputData(vals: any) {
+   getInputData(vals: any) {
+    const urls = vals.urls.split(/[\n,; ]+/).filter((url:string) => url.trim() !== '');
+  
+    const ebayUrls = urls.filter((url:string) => {
+      // Проверяем, что ссылка начинается с "http://" или "https://"
+      if (!/^https?:\/\//i.test(url)) {
+        return false;
+      }
+  
+      // Проверяем, что ссылка содержит "ebay.com" в домене
+      if (!/ebay\.com/i.test(url)) {
+        return false;
+      }
+  
+      return true;
+    });
+  
     const inputData: IReadUrlsEbay = {
-      urls: vals.urls.split('\n') || [],
-    }
-    return inputData
+      urls: ebayUrls || [],
+    };
+  
+    return inputData;
   }
 
   getTypeTask = (): TypeTask => 'readUrlsEbay'

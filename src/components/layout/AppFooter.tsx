@@ -18,7 +18,7 @@ const AppFooter: React.FC = () => {
   const { footerMenu } = useHeaderFooterContext();
   return <>
     <Footer style={footerCss}>
-      <Space align='center' style={{ ...footerSpaceCss, justifyContent: 'flex-start', width: '25%' }} >© 2023 ASIN Expert | {AppSettig.getVersion()}</Space>
+      <Space align='center' style={{ ...footerSpaceCss, justifyContent: 'flex-start', width: '25%' }} >© 2024 Market Spy | {AppSettig.getVersion()}</Space>
       <Space align='center' style={{ ...footerSpaceCss, justifyContent: 'flex-end', width: '75%' }} >
         {footerMenu.map((v, i) => <div key={i}>
             <span key={v.key}>{v.val}</span>

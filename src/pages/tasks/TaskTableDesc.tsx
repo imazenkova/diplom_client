@@ -40,7 +40,7 @@ const TaskTableDesc: React.FC<TaskTableDescProps> = ({ id, state }) => {
   const diffInMinutes = diffInMilliseconds / (1000 * 60);
   const roundedDiff = Math.round(diffInMinutes * 10) / 10;
   const stateStr = `${data.state}: ` + state?.l.state[data.state]
-
+  
   return (
     <>
       <Descriptions title={state!.l.taskTableDesc.taskInfo} layout="vertical">
@@ -50,8 +50,16 @@ const TaskTableDesc: React.FC<TaskTableDescProps> = ({ id, state }) => {
         <Descriptions.Item label={state!.l.taskTableDesc.typeOfTask}>{data.type}: {state.l.tasks.type[data.type]}</Descriptions.Item>
         {/* <Descriptions.Item label={state!.l.taskTableDesc.stateOfTask}>{stateStr}</Descriptions.Item> */}
         <Descriptions.Item label={state!.l.columns.progress}>
-          {data.proccess ? `${data.proccess.done} / ${data.proccess.all} (${parseFloat(((data.proccess.done / data.proccess.all) * 100).toFixed(2))}%)` : 'Not available'}
-        </Descriptions.Item>
+  {data.proccess ? (
+    data.proccess.all === 0 ? (
+      `${data.proccess.done} / ${data.proccess.all} (0%)`
+    ) : (
+      `${data.proccess.done} / ${data.proccess.all} (${parseFloat(((data.proccess.done / data.proccess.all) * 100).toFixed(2))}%)`
+    )
+  ) : (
+    'Not available'
+  )}
+</Descriptions.Item>
       </Descriptions>
 
       <Descriptions title="InputData" layout="vertical">
