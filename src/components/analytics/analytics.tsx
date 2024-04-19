@@ -20,6 +20,7 @@ import { ApiError } from '../../shared.lib/api/errors';
 import { ContextType, State } from '../../Reduser';
 import { AppContext } from '../../AppContext';
 import { ITaskInfo } from '../../shared.lib/api/task.api';
+import { useLocation } from 'react-router-dom';
 
 ChartJS.register(
     CategoryScale,
@@ -38,17 +39,25 @@ ChartJS.register(
     count: number;
   };
 
-const Analytics = () => {
+  interface AnalyticsProps {
+    id?: number;
+  }
+  const Analytics: React.FC<AnalyticsProps> = (props) => {
+    const {id}= props;
     const [allTasks, setTasks] = useState<TaskCount[]>([]);
     const { message } = App.useApp();
     const { state, dispatch } = useContext<ContextType>(AppContext);
-    const userId = state?.profile?.user.id!;
+    let userId = state?.profile?.user.id!;
     const typesLocal= state?.l.tasks.type;
+    
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const userIDParam = params.get('userId')
 
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const result = await TaskApi.getListTaskInfo({ });
+          const result = await TaskApi.getListTaskInfo({id:userIDParam});
           const count = result.reduce((accumulator:any, currentObject) => {
             const existingObject:any = accumulator.find((obj:ITaskInfo )=> obj.type === currentObject.type);
           

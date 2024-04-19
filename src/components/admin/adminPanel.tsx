@@ -3,11 +3,14 @@ import { Button, Table, Input } from 'antd';
 import { AuthApi } from '../../api/auth.api.cli';
 import { UserModel, UserStatus } from '../../shared.lib/user-model';
 import { ChangeStatusPayload } from '../../shared.lib/api/auth.api';
+import { useNavigate } from 'react-router-dom';
+import { AppSettig } from '../../app.setting';
 
 const AdminPanel = () => {
   const [users, setUsers] = useState<UserModel[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
-
+  const navigate = useNavigate()
+  
   const getAllUsers = async () => {
     try {
       const users = await AuthApi.getAllUsers();
@@ -54,6 +57,10 @@ const AdminPanel = () => {
     setSearchQuery(e.target.value);
   };
 
+  const handleOpenAnalytics = (id:number) => {
+   navigate(`/analytics?userId=${id}`)
+  };
+
   const columns = [
     {
       title: 'ID',
@@ -85,6 +92,20 @@ const AdminPanel = () => {
       render: (status: UserStatus) => {
         return status === UserStatus.Active ? 'Active' : 'Blocked';
       },
+    },{
+      title: 'Analytics',
+      key: 'analytics',
+      render: ( user: UserModel) => {
+        return (
+          <span>
+            {user ? (
+              <Button onClick={() => handleOpenAnalytics(user.id)}>Open</Button>
+            ) : (
+              <></>
+            )}
+          </span>
+        );
+      },
     },
     {
       title: 'Action',
@@ -95,7 +116,9 @@ const AdminPanel = () => {
             {user && user.status === UserStatus.Active ? (
               <Button onClick={() => handleBlockUser(user.id)}>Block</Button>
             ) : (
+
               <Button onClick={() => handleUnblockUser(user.id)}>Unblock</Button>
+            
             )}
           </span>
         );

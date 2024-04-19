@@ -63,6 +63,7 @@ const ContentRoutes: React.FC = () => {
             )
           }
         />
+
         <Route
           path="/pricecomparator/template/create"
           element={
