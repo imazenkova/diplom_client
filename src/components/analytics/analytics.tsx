@@ -15,12 +15,12 @@ import {
   import { themeDef } from '../../styles/theme.app.def';
 import { TaskApi } from '../../api/task.api.cli';
 import { ITaskInfoRes } from '../../shared.lib/api/task.api';
-import { App } from 'antd';
+import { App, Button } from 'antd';
 import { ApiError } from '../../shared.lib/api/errors';
 import { ContextType, State } from '../../Reduser';
 import { AppContext } from '../../AppContext';
 import { ITaskInfo } from '../../shared.lib/api/task.api';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 ChartJS.register(
     CategoryScale,
@@ -54,6 +54,8 @@ ChartJS.register(
     const params = new URLSearchParams(location.search);
     const userIDParam = params.get('userId')
 
+    const navigate = useNavigate()
+  
     useEffect(() => {
       const fetchData = async () => {
         try {
@@ -147,7 +149,9 @@ ChartJS.register(
         <div  style={{
       height: '100%', width: '50%',
     }}><Doughnut data={data} /></div>
-        <div></div>
+        <div>
+          <Button onClick={ ()=>{navigate(`/tasks?userId=${userId}`)}}>Open Tasks</Button>
+        </div>
 
     </div>
   );
