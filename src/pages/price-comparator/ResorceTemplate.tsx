@@ -290,6 +290,9 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
     const template = createComparePricesTemplate(templName, data, keysWithoutDollarSign);//формирование шаблона
     let result = calcRowFormula(template, uploadData)
       .map((v, id) => ({ id, ...v }));//получение результта
+
+      const a =   createDefColumn(result, false)
+      console.log("Colll,",a)
     const columns = createDefColumn(result, false).filter(v => !v.field?.startsWith('$'))
     modalData(result, columns, true)
   }

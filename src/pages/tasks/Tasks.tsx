@@ -55,14 +55,14 @@ const addTaskMenu = (loc: Translation, nav: NavigateFunction): MenuProps['items'
       { key: 'ebay3', label: loc.tasks.type.readPagesFromSellerEbay, onClick: () => nav("/tasks?addtype=readPagesFromSellerEbay") },
     ],
   },
-  {
-    label: loc.priceCmp.topMenuLabel,
-    key: 'priceCompMenu',
-    icon: <MoneyCollectOutlined style={buttonLeftIcon} />,
-    children: [
-      { key: 'priceCmp', label: loc.tasks.type.comparePricesWithKeepa, onClick: () => nav("/tasks?addtype=comparePricesWithKeepa") },
-    ],
-  },
+  // {
+  //   label: loc.priceCmp.topMenuLabel,
+  //   key: 'priceCompMenu',
+  //   icon: <MoneyCollectOutlined style={buttonLeftIcon} />,
+  //   children: [
+  //     { key: 'priceCmp', label: loc.tasks.type.comparePricesWithKeepa, onClick: () => nav("/tasks?addtype=comparePricesWithKeepa") },
+  //   ],
+  // },
   //только в режиме дебаг
   // {
   //   label: 'Test',
@@ -81,7 +81,7 @@ export const PlusButtonTask = (loc: Translation) => {
   //Добавили кнопку в хедар меню
   useHeaderMenu({
     items: [{
-      key: 'id_1', val: <>
+      key: '  _1', val: <>
         {<Menu style={{ minWidth: '100vh' }} items={addTaskMenu(loc, nav)} triggerSubMenuAction='click' mode="horizontal" />}
       </>
     }]

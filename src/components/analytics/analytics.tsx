@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState } from 'react';
-import { Doughnut } from 'react-chartjs-2';
+import { Doughnut, Line } from 'react-chartjs-2';
 import {
     CategoryScale,
     Chart as ChartJS,
@@ -35,8 +35,13 @@ ChartJS.register(
     ArcElement
   );
 
-  type TaskCount = {
+  type TaskCountByType = {
     type: string;
+    count: number;
+  };
+
+  type TaskCountByDate = {
+    date: string;
     count: number;
   };
 
@@ -45,7 +50,8 @@ ChartJS.register(
   }
   const Analytics: React.FC<AnalyticsProps> = (props) => {
     const {id}= props;
-    const [allTasks, setTasks] = useState<TaskCount[]>([]);
+    const [allTasks, setTasks] = useState<TaskCountByType[]>([]);
+    const [allTasksByDate, setTasksByDate] = useState<TaskCountByDate[]>([]);
     const { message } = App.useApp();
     const { state, dispatch } = useContext<ContextType>(AppContext);
     let userId = state?.profile?.user.id!;
@@ -58,11 +64,11 @@ ChartJS.register(
     const navigate = useNavigate()
     const fetchData = async () => {
       try {
-
+debugger
         const result = await TaskApi.getListTaskInfo({id:userIDParam});
-        const count = result.reduce((accumulator:any, currentObject) => {
-          const existingObject:any = accumulator.find((obj:ITaskInfo )=> obj.type === currentObject.type);
-        
+        const countTasksByType = result.reduce((accumulator:any, currentObject) => {
+        const existingObject:any = accumulator.find((obj:ITaskInfo )=> obj.type === currentObject.type);
+
           if (existingObject) {
             existingObject.count++;
           } else {
@@ -71,13 +77,39 @@ ChartJS.register(
         
           return accumulator;
         }, []);
-        setTasks(count);
+        setTasks(countTasksByType);
+
+        const tasksCopy= result as any ;
+        const newArray = tasksCopy.map((currentObject:any) => {
+          const date = new Date(currentObject.timeCreate);
+          const day = String(date.getDate()).padStart(2, '0');
+          const month = String(date.getMonth() + 1).padStart(2, '0');
+          const year = String(date.getFullYear()).slice(-2);
+          const formattedDate = `${day}/${month}/${year}`;
+        
+          return { ...currentObject, date: formattedDate };
+        });
+
+        const countTasksByDate = newArray.reduce((accumulator:any, currentObject:any) => {
+          const { date } = currentObject;
+        
+          if (date in accumulator) {
+            accumulator[date].count++;
+          } else {
+            accumulator[date] = { date, count: 1 };
+          }
+        
+          return accumulator;
+        }, {});
+        
+        setTasksByDate(countTasksByDate);
+        
       } catch (error) {
         message.success(ApiError.FromAxios(error).getFullMessage(','), 20);
       }
     };
+
     useEffect(() => {
-  
       fetchData();
     }, [userId]);
 
@@ -128,14 +160,45 @@ ChartJS.register(
           break;
       }
     }
-    const countArray: number[] = allTasks.map(obj => obj.count);
+
+    const countTasksByType: number[] = allTasks.map(obj => obj.count);
+
     const data = {
         labels: typesArray,
         datasets: [
           {
-            data: countArray,
+            data: countTasksByType,
             backgroundColor: ['#ff0000', '#00ff00', '#0000ff','#ffff00', '#ff00ff', '#00ffff', '#ff8000', '#0080ff', '#8000ff', '#ff0080', '#80ff00', '#008000', '#800000'],
           },
+        ],
+      };
+
+
+       const optionsLine = {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top' as const,
+          },
+          title: {
+            display: true,
+            text: 'Activity',
+          },
+        },
+      };
+
+      const countTaskByDate: number[] = Object.values(allTasksByDate).map((obj) => obj.count);
+      const dateArray: string[] = Object.values(allTasksByDate).map((obj) => obj.date);
+   
+       const dataLine= {
+        labels:dateArray.reverse(),
+        datasets: [
+          {
+            label: 'Activity',
+            data:countTaskByDate.reverse(),
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          }
         ],
       };
 
@@ -146,7 +209,6 @@ ChartJS.register(
     <Button onClick={ ()=>{navigate(`/tasks?userId=${userId}`)}}>Open Tasks</Button>
 
 </div>
-
     <div
     style={{
       height: '100%', width: '100%',
@@ -166,10 +228,8 @@ ChartJS.register(
       height: '100%', width: '50%',
       alignContent:'center', 
     }}>
-      <Doughnut data={data} />
-
+  <Line options={optionsLine} data={dataLine} />
     </div>
-  
 
   </div>
   </div>

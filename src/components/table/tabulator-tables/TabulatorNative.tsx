@@ -42,21 +42,6 @@ export default class TabulatorNative extends React.Component<TabulatorNativeProp
     this.tabulator && this.tabulator.destroy();
   }
 
-  // shouldComponentUpdate(nextProps: Readonly<TabulatorNativeProps>, nextState: Readonly<{}>, nextContext: any): boolean {
-  //   const o = this.props.options
-  //   const on = nextProps.options
-
-  //   if (this.el && o && on) {
-  //     if (o.data !== on.data ||
-  //       o.columns !== on.columns ||
-  //       o.height !== on.height) {
-  //         return true
-  //     }
-  //   }
-
-  //   return false
-  // }
-
   componentDidUpdate(prevProps: TabulatorNativeProps) {
     const o = this.props.options
     const op = prevProps.options
