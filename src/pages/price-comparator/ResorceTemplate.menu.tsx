@@ -25,16 +25,16 @@ export const menuTemplate = (acceptFileDlg: string, loc: Translation, onViewResu
         </Upload>
       </div>
     },
-    {
-      key: 'id_2', val: <div>
-        <Button type='text' icon={<CheckSquareOutlined style={buttonLeftIcon} />}
-          onClick={() => onViewSpl()}
-          disabled={!uploadedFileName}
-        >
-          {state.l.resourceTemplate.menu.viewing}
-        </Button>
-      </div>
-    },
+    // {
+    //   key: 'id_2', val: <div>
+    //     <Button type='text' icon={<CheckSquareOutlined style={buttonLeftIcon} />}
+    //       onClick={() => onViewSpl()}
+    //       disabled={!uploadedFileName}
+    //     >
+    //       {state.l.resourceTemplate.menu.viewing}
+    //     </Button>
+    //   </div>
+    // },
     {
       key: 'id_3', val: <div>
         <Button type='text' icon={<CheckSquareOutlined style={buttonLeftIcon} />}
