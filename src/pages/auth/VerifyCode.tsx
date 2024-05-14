@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react';
 import { AppContext } from '../../AppContext';
 import { ContextType } from '../../Reduser';
 import { ApiError } from '../../shared.lib/api/errors';
+import { AuthApi } from '../../api/auth.api.cli';
 
 interface VerifyCodeProps {
   visible: boolean;
@@ -19,17 +20,19 @@ const [isLoading,setLoading]=useState(false)
   const handleOk = async () => {
     try {
       setLoading(true)
-      // const result = await AuthApi.verifySecurityCode({
-      //   token: codeToken,
-      //   code
-      // });
+      const result = await AuthApi.verifySecurityCode({
+        token: codeToken,
+        code
+      });
+
       onSuccess();
+      setCode('')
     } catch (e) {
       const ae = ApiError.FromAxios(e)
       if(ae.aexCode === 'auth.codeNotEq'){
         message.error(`${state?.l.errors.codeNotEq}`);
       }
-      //console.error(e);
+      console.error(e);
     }finally{
       setLoading(false)
     }

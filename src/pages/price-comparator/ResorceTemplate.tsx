@@ -47,6 +47,8 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
   const [changeTab, setChangeTab] = useState(false);//отображение таблицы после загрузки файла с компа  или edit
   const [enableCheckBtn, setEnableCheckBtn] = useState(false);
   const [uploadedFileName, setUploadedFileName] = useState('');
+  const [uploadObjectKeys, setUploadObjectKeys] = useState<any[]>([]);//Для форумл выводить c @
+  const [uploadData, setUploadData] = useState<any[]>([]);// данные полученные с файла ,загруженного с компа
 
 
   const initialData: DataItem[] = keysWithoutDollarSign.map((key, index) => ({
@@ -60,6 +62,7 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
 
   const loadResourceData = async () => {//при edit загружаем данные для таблицы из бд по url параметру(=как имя файла)
     try {
+      
       if (templateNameParam !== null) {
         let updatedFileName = templateNameParam;
         updatedFileName += ".json";
@@ -91,7 +94,7 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
               });
             }
           }
-
+          
           setData(newData);
           const keys = getUniqueKeysFromData(fileRows)
           setUploadObjectKeys(keys)
@@ -110,6 +113,7 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
   };
 
   useEffect(() => {
+    debugger
     if (pathname === AppSettig.routePath.templateEdit) {// если путь соотв путю edit , то загружаем с бд файл
       loadResourceData()
     }
@@ -118,6 +122,7 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
 
   useEffect(() => {
     try {
+      debugger
       const template = createComparePricesTemplate('temp', data, keysWithoutDollarSign);//формирование шаблона
       // Тестим данные перед сохранением
       if (!uploadData || uploadData.length === 0) return
@@ -134,6 +139,7 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
       const newData = JSON.stringify(data)
 
       if (sData !== newData) {
+        debugger
         setData([...data])
       }
 
@@ -141,7 +147,7 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
       console.error('err', e)
     }
 
-  }, [data])
+  }, [data,uploadData])
 
   const columns: ColumnsType<any> = [
     { dataIndex: "compare", title: `${state!.l.resourceTemplate.fields}`, width: '9rem', key: "compare" },
@@ -165,8 +171,6 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
 
   ];
 
-  const [uploadObjectKeys, setUploadObjectKeys] = useState<any[]>([]);//Для форумл выводить c @
-  const [uploadData, setUploadData] = useState<any[]>([]);// данные полученные с файла ,загруженного с компа
 
   const firstState = () => {
     setData(initialData)
@@ -175,6 +179,7 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
   }
 
   const loadFile = async (file: RcFile): Promise<any[] | null> => {
+    
     const ext = FileUtils.getFileExtension(file.name)
     let res: any[]
     if (ext === MIMES.csv) {
@@ -197,14 +202,16 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
 
   const setUploadedFile = async (uploadedFile: RcFile): Promise<string | undefined> => {
     if (uploadedFile) {
+      
       setUploadedFileName(uploadedFile.name)
       setIsLoading(true)
 
       if (!editMode) firstState()
 
       try {
+        
         const parsedData = await loadFile(uploadedFile)
-        debugger
+      
         if (parsedData === null) return Upload.LIST_IGNORE
         const keys = getUniqueKeysFromData(parsedData)
         setUploadData(parsedData);
@@ -226,6 +233,7 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
 
   const deleteResourceDB = async (fileName: string) => {// удаление ресура в бд
     try {
+      
       let updatedFileName = fileName;
       if (!updatedFileName.endsWith(".json")) {
         updatedFileName += ".json";
@@ -242,7 +250,7 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
 
   const handleFormSubmit = async () => {//сохраняем в бд ресурс
     try {
-      debugger
+      
       if (templateNameParam) { await deleteResourceDB(templateNameParam); }
       setIsLoading(true)
       // Валидация ввода
@@ -282,22 +290,23 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
   };
 
   useEffect(() => {
+
     if (updateMenu) updateMenu(menuTemplate(acceptFileDlg, state?.l!, onViewResult, onViewSpl, setUploadedFile, templName, uploadedFileName, enableCheckBtn,
       handleFormSubmit, setTemplName,state!))
   }, [data, templName, uploadedFileName])
 
   const onViewResult = () => {
+    
+
     const template = createComparePricesTemplate(templName, data, keysWithoutDollarSign);//формирование шаблона
     let result = calcRowFormula(template, uploadData)
       .map((v, id) => ({ id, ...v }));//получение результта
-
-      const a =   createDefColumn(result, false)
-      console.log("Colll,",a)
     const columns = createDefColumn(result, false).filter(v => !v.field?.startsWith('$'))
     modalData(result, columns, true)
   }
 
   const modalData = (data: any[], columns: ColumnDefinition[], useImg = false) => {
+    
     const [width, height] = ['70vw', '60vh']
     modal.success({
       icon: null,
@@ -322,6 +331,7 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
   }
 
   const onViewSpl = () => {
+    
     modalData(uploadData, createDefColumn(uploadData, false))
   }
 
@@ -347,7 +357,6 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
           { title: `${state!.l.resourceTemplate.getProfit}`  },
           ]}
         />
-
       </div>}
 
       <Spin spinning={isLoading} size="large" style={{ ...colCenterCss }}>
@@ -373,7 +382,6 @@ const ResorceTemplate: React.FC<{ editMode: boolean }> = ({ editMode }) => {
             </Col>
           </Row>
           <Row>
-
             <Table rowKey={columns[0].key as string} pagination={false} columns={columns} size='large' style={{ height: '100%', width: "100%" }}
               dataSource={data}
             />

@@ -67,7 +67,10 @@ const StateTaskLoc: Record<StateTask, string> = {
 export const en: Translation = {
   common: {
     search: "Search...",
-    close: "Close"
+    close: "Close",
+    open: "Open",
+    block: "Block",
+    unblock: "Unblock"
   },
   auth: {
     signUpSuccessDescription: "Use new credentials to log in",
@@ -136,7 +139,9 @@ export const en: Translation = {
     changePassword: "Change Password",
     newPassword: "New Password",
     oldPassword: "Old Password",
-    succChangePassword: "Password successfully changed"
+    succChangePassword: "Password successfully changed",
+    blocked: "Blocked",
+    active: "Active"
   },
   apiProfile: {
     title: "API Access",
@@ -177,7 +182,7 @@ export const en: Translation = {
     profile: "Profile",
     apiProfile: "API Access",
     adminPanel: "Admin Panel",
-    analytics:"Analytics"
+    analytics: "Analytics"
   },
   filter: {
     name: "Filter",
@@ -247,6 +252,13 @@ export const en: Translation = {
   notFoundUrl: {
     subTitle: "Sorry, the requested page does not exist",
     toPrimary: " To Homepage"
+  },
+  analytics: {
+    analytics: "Analytics",
+    activity: "Activity",
+    openTasks: "Open tasks",
+    searchByEmail: " Search by email",
+    noTasks: "You don't have any tasks yet! You can create them ↓"
   },
   copyClipboard: {
     succCopy: 'Text copied. You can paste it into Google Sheets',
@@ -346,6 +358,7 @@ export const en: Translation = {
     cariation: "Variation",
     state: "State",
     progress: "Progress",
+    type: "Type",
     report: "Report",
     repeat: "Repeat",
     cancel: "Cancel",

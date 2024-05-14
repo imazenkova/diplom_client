@@ -220,7 +220,7 @@ const TasksTable: React.FC<{ refresh: boolean, notificationApp: NotificationApp 
   const columns: TableColumnsType<any> = [
     { title: `${state!.l.columns.name}`, dataIndex: 'name',  ...getColumnSearchProps('name'), },
     // {title: 'TimeStart', dataIndex: 'timeStart',render: (data: number) => data ? new Date(data).toLocaleString() : '',},
-    { title: 'TypeTask', dataIndex: 'type', render: (t: TypeTask) => state?.l.tasks.type[t] },
+    { title: `${state!.l.columns.type}`, dataIndex: 'type', render: (t: TypeTask) => state?.l.tasks.type[t] },
     {
       title: `${state!.l.columns.state}`, dataIndex: 'state', key: 'state',
       render: (s: number) => {
@@ -256,7 +256,7 @@ const TasksTable: React.FC<{ refresh: boolean, notificationApp: NotificationApp 
       }
     },
     {
-      title: `${state!.l.columns.state}`, dataIndex: 'state', key: 'view',
+      title: `${state!.l.columns.report}`, dataIndex: 'state', key: 'view',
       render: (stateNum: number, row) =>
         <Button type='text' disabled={!StateTaskUls.isComplite(stateNum)}
           onClick={() => navigate(`/tasks/report?id=${row.id}`)}>

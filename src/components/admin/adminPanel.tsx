@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, {  useContext, useEffect, useState } from 'react';
 import { Button, Table, Input } from 'antd';
 import { AuthApi } from '../../api/auth.api.cli';
 import { UserModel, UserStatus } from '../../shared.lib/user-model';
 import { ChangeStatusPayload } from '../../shared.lib/api/auth.api';
 import { useNavigate } from 'react-router-dom';
 import { AppSettig } from '../../app.setting';
+import { ContextType } from '../../Reduser';
+import { AppContext } from '../../AppContext';
+import { stat } from 'fs';
+
 
 const AdminPanel = () => {
   const [users, setUsers] = useState<UserModel[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate()
+  const { state } = useContext<ContextType>(AppContext);
   
   const getAllUsers = async () => {
     try {
@@ -62,37 +67,33 @@ const AdminPanel = () => {
   };
 
   const columns = [
+
     {
-      title: 'ID',
-      dataIndex: 'id',
-      key: 'id',
-    },
-    {
-      title: 'First Name',
+      title:`${state?.l.profile.firstName}`,
       dataIndex: 'firstName',
       key: 'firstName',
       // sorter: (a:any, b:any) => a.name.length - b.name.length,
       // sortDirections: ['descend'],
     },
     {
-      title: 'Last Name',
+      title: `${state?.l.profile.lastName}`,
       dataIndex: 'lastName',
       key: 'lastName',
 
     },
     {
-      title: 'Email',
+      title: `${state?.l.profile.email}`,
       dataIndex: 'email',
       key: 'email',
     },
     {
-      title: 'Analytics',
+      title: `${state?.l.analytics.analytics}`,
       key: 'analytics',
       render: ( user: UserModel) => {
         return (
           <span>
             {user ? (
-              <Button onClick={() => handleOpenAnalytics(user.id)}>Open</Button>
+              <Button onClick={() => handleOpenAnalytics(user.id)}>{state?.l.common.open}</Button>
             ) : (
               <></>
             )}
@@ -101,16 +102,16 @@ const AdminPanel = () => {
       },
     },
     {
-      title: 'Action',
+      title:  ` `,
       key: 'action',
       render: (text: any, user: UserModel) => {
         return (
           <span>
             {user && user.status === UserStatus.Active ? (
-              <Button onClick={() => handleBlockUser(user.id)}>Block</Button>
+              <Button style={{color:'red'}} onClick={() => handleBlockUser(user.id)}>{state?.l.common.block}</Button>
             ) : (
 
-              <Button onClick={() => handleUnblockUser(user.id)}>Unblock</Button>
+              <Button style={{color:'green'}} onClick={() => handleUnblockUser(user.id)}>{state?.l.common.unblock}</Button>
             
             )}
           </span>
@@ -118,11 +119,11 @@ const AdminPanel = () => {
       },
     },
     {
-      title: 'Status',
+      title: `${state?.l.columns.state}`,
       dataIndex: 'status',
       key: 'status',
       render: (status: UserStatus) => {
-        return status === UserStatus.Active ? 'Active' : 'Blocked';
+        return status === UserStatus.Active ? `${state?.l.profile.active}` : `${state?.l.profile.blocked}`;
       },
     },
   ];
@@ -130,12 +131,13 @@ const AdminPanel = () => {
   return (
     <div>
       <div>
+
         <Input.Search
           type="text"
           value={searchQuery}
           onChange={handleSearchChange}
           style={{ width: '40%', margin: '5px' }}
-          placeholder="Search by email"
+          placeholder= {state?.l.analytics.searchByEmail}
         />
 
       </div>

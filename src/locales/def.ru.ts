@@ -1,3 +1,4 @@
+import Analytics from "../components/analytics/analytics";
 import { TypeNotification } from "../shared.lib/api/notification.api";
 import { StateTask, TypeTask } from "../shared.lib/api/task.api";
 import { Constraints, Logic } from "../shared.lib/filter-and-sort/filter";
@@ -66,6 +67,9 @@ export const ru = {
   common: {
     search: "Поиск...",
     close: "Закрыть",
+    open:"Открыть",
+    block:"Заблокировать",
+    unblock:"Разблокировать"
 
   },
   asinTable: {
@@ -126,7 +130,7 @@ export const ru = {
     title: "Личная информация",
     settings: "Настройки",
     notification: "Уведомления",
-    email: "Email",
+    email: "Почта",
     logout: "Выход",
     lang: "Язык",
     licDate: "Дата окончания лицензии",
@@ -139,7 +143,9 @@ export const ru = {
     changePassword: "Изменить пароль",
     newPassword: "Новый пароль",
     oldPassword: "Старый пароль",
-    succChangePassword: "Пароль успешно изменен"
+    succChangePassword: "Пароль успешно изменен",
+    blocked:"Заблокирован",
+    active:"Активен"
   },
   apiProfile: {
     title: "API доступ",
@@ -250,6 +256,13 @@ export const ru = {
     subTitle: "Извините, запрашиваемая страница не существует",
     toPrimary: " На главную"
   },
+  analytics: {
+    analytics: "Aналитика",
+    activity: "Активность",
+    openTasks: "Открыть задачи",
+    searchByEmail:"Поиск по почте",
+    noTasks:"У вас еще нет задач! Вы можете создать их ↓"
+  },
   copyClipboard: {
     succCopy: 'Текст скопирован. Можно вставлять в Google таблицы',
     errorCopy: "Ошибка при копировании",
@@ -345,6 +358,7 @@ export const ru = {
     cariation: "Варианция",
     state: "Состояние",
     progress: "Прогресс",
+    type: "Тип",
     report: "Отчет",
     repeat: "Повторить",
     cancel: "Завершить",

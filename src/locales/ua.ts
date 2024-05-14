@@ -67,7 +67,10 @@ const StateTaskLoc: Record<StateTask, string> = {
 export const ua: Translation = {
   common: {
     search: "Пошук...",
-    close: "Закрити"
+    close: "Закрити",
+    open:"Открыть",
+    block:"Заблокировать",
+    unblock:"Разблокировать"
   },
   auth: {
     signUpSuccessDescription: "Використовуйте нові облікові дані для входу",
@@ -136,7 +139,9 @@ export const ua: Translation = {
     changePassword: "Змінити пароль",
     newPassword: "Новий пароль",
     oldPassword: "Старий пароль",
-    succChangePassword: "Пароль успішно змінено"
+    succChangePassword: "Пароль успішно змінено",
+    blocked:"Заблокирован",
+    active:"Активен"
   },
   apiProfile: {
     title: "Доступ до API",
@@ -248,6 +253,13 @@ export const ua: Translation = {
     subTitle: "Вибачте, запитувана сторінка не існує",
     toPrimary: " На Головну"
   },
+  analytics: {
+    analytics: "Aналитика",
+    activity: "Активность",
+    openTasks: "Открыть задачи",
+    searchByEmail:"Поиск по почте",
+    noTasks:"У вас еще нет задач! Вы можете создать их ↓"
+  },
   copyClipboard: {
     succCopy: 'Текст скопійовано. Ви можете вставити його в Google Sheets',
     errorCopy: "Помилка копіювання",
@@ -342,6 +354,7 @@ export const ua: Translation = {
     cariation: "Варіація",
     state: "Стан",
     progress: "Прогрес",
+    type: "Тiп",
     report: "Звіт",
     repeat: "Повторити",
     cancel: "Скасувати",

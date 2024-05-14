@@ -12,10 +12,11 @@ import {
     Tooltip,
     ArcElement
   } from 'chart.js';
+
   import { themeDef } from '../../styles/theme.app.def';
 import { TaskApi } from '../../api/task.api.cli';
 import { ITaskInfoRes } from '../../shared.lib/api/task.api';
-import { App, Button } from 'antd';
+import { App, Button, Empty } from 'antd';
 import { ApiError } from '../../shared.lib/api/errors';
 import { ContextType, State } from '../../Reduser';
 import { AppContext } from '../../AppContext';
@@ -56,7 +57,7 @@ ChartJS.register(
     const { state, dispatch } = useContext<ContextType>(AppContext);
     let userId = state?.profile?.user.id!;
     const typesLocal= state?.l.tasks.type;
-    
+  
     const location = useLocation();
     const params = new URLSearchParams(location.search);
     const userIDParam =Number( params.get('userId'))
@@ -64,7 +65,6 @@ ChartJS.register(
     const navigate = useNavigate()
     const fetchData = async () => {
       try {
-debugger
         const result = await TaskApi.getListTaskInfo({id:userIDParam});
         const countTasksByType = result.reduce((accumulator:any, currentObject) => {
         const existingObject:any = accumulator.find((obj:ITaskInfo )=> obj.type === currentObject.type);
@@ -182,19 +182,20 @@ debugger
           },
           title: {
             display: true,
-            text: 'Activity',
+            text: `${state?.l.analytics.activity}`,
           },
         },
       };
 
       const countTaskByDate: number[] = Object.values(allTasksByDate).map((obj) => obj.count);
+    
       const dateArray: string[] = Object.values(allTasksByDate).map((obj) => obj.date);
    
        const dataLine= {
         labels:dateArray.reverse(),
         datasets: [
           {
-            label: 'Activity',
+            label: `${state?.l.analytics.activity}`,
             data:countTaskByDate.reverse(),
             borderColor: 'rgb(255, 99, 132)',
             backgroundColor: 'rgba(255, 99, 132, 0.5)',
@@ -204,11 +205,16 @@ debugger
 
   return (
     <div>
+      {countTaskByDate.length === 0 ?(
+        <div 
+        style={{paddingBottom:'1%',display:"flex",justifyContent:'center'}}><h3>{state?.l.analytics.noTasks}</h3></div>):(<></>)}
+      
     <div 
     style={{paddingBottom:'1%',display:"flex",justifyContent:'center'}}>
-    <Button onClick={ ()=>{navigate(`/tasks?userId=${userId}`)}}>Open Tasks</Button>
+    <Button onClick={ ()=>{navigate(`/tasks?userId=${userId}`)}}>{state?.l.analytics.openTasks}</Button>
 
 </div>
+
     <div
     style={{
       height: '100%', width: '100%',
@@ -217,19 +223,25 @@ debugger
       display: 'flex',
       flexDirection: 'row',
     }} >
-        <div  style={{
-      height: '100%', width: '50%',
-      alignContent:'center', 
-    }}>
-      <Doughnut data={data} />
 
-    </div>
-    <div  style={{
-      height: '100%', width: '50%',
-      alignContent:'center', 
-    }}>
-  <Line options={optionsLine} data={dataLine} />
-    </div>
+      {countTaskByDate.length === 0 ?(
+       <></>
+      ):(
+        <>   <div  style={{
+          height: '100%', width: '50%',
+          alignContent:'center', 
+        }}>
+          <Doughnut data={data} />
+    
+        </div>
+        <div  style={{
+          height: '100%', width: '50%',
+          alignContent:'center', 
+        }}>
+      <Line options={optionsLine} data={dataLine} />
+        </div></>
+      )}
+     
 
   </div>
   </div>
