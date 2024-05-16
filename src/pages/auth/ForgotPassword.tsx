@@ -21,12 +21,14 @@ const ForgotPassword: React.FC<ForgotPassProps> = ({ visible,setForgotPasswordVi
 
   const handleSubmit = async () => {
       try {
+        debugger
+        console.log("forgot password")
         setIsLoading(true);
         await AuthApi.forgotPassword({ email: email });
         localStorage.setItem('email',email);
         message.success(state?.l?.profile.succChangePassword);
         hideModal();
-        window.location.reload();
+        // window.location.reload();
       } catch (e) {
         const ae = ApiError.FromAxios(e);
         if (ae.aexCode === 'auth.UserNotExist') {
@@ -71,6 +73,7 @@ const ForgotPassword: React.FC<ForgotPassProps> = ({ visible,setForgotPasswordVi
           type="primary"
           loading={isLoading}
           htmlType="submit"
+          onClick={handleSubmit}
           disabled={isLoading}
         >
           {state?.l?.login.sendEmail}

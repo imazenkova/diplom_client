@@ -45,23 +45,23 @@ const ViewAmazonPage: React.FC<ViewAmazonPageTableProps> = (props) => {
           useMain={false}
         />
     },
-    {
-      key: '2',
-      label: 'Sellers',
-      style: { height: '100%' },
-      children:
-        <ASINTable
-          resource={'AmzTable/Sellers'}
-          baseTable={{
-            name: data.name,
-            dataSource: sellerData,
-            columns: pageAmzSellerColumns,
-          }}
-          onChangeDataSource={(ds) => { }}
-          useMain={false}
-        />
+    // {
+    //   key: '2',
+    //   label: 'Sellers',
+    //   style: { height: '100%' },
+    //   children:
+    //     <ASINTable
+    //       resource={'AmzTable/Sellers'}
+    //       baseTable={{
+    //         name: data.name,
+    //         dataSource: sellerData,
+    //         columns: pageAmzSellerColumns,
+    //       }}
+    //       onChangeDataSource={(ds) => { }}
+    //       useMain={false}
+    //     />
 
-    },
+    // },
     //{ key: '3', label: 'Analisys', children: <div style={{ height: '100%', display: 'flex' }} id='dddd1'>Content of Tab ZZZ<br /><br /></div> },
   ]
 

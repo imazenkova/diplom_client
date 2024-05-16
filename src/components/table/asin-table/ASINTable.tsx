@@ -135,7 +135,7 @@ const ASINTable: React.FC<ASINTableProps> = (props) => {
 
   const itemsDownloads: MenuProps['items'] = [
     { key: '1', label: 'CSV', onClick: () => dnldCol(() => tabulatorRef?.current?.tabulator?.download("csv", "data.csv")) },
-    { key: '2', label: 'TSV', onClick: () => dnldCol(() => tabulatorRef?.current?.tabulator?.download("csv", "data.csv", { delimiter: '\t' })) },
+    // { key: '2', label: 'TSV', onClick: () => dnldCol(() => tabulatorRef?.current?.tabulator?.download("csv", "data.csv", { delimiter: '\t' })) },
     { key: '3', label: 'XLSX', onClick: () => dnldCol(() => tabulatorRef?.current?.tabulator?.download("xlsx", "data.xlsx", { sheetName: "My Data" })) },
     { key: '4', label: 'JSON', onClick: () => dnldCol(() => tabulatorRef?.current?.tabulator?.download("json", "data.json")) },
     { key: '5', label: 'HTML', onClick: () => dnldCol(() => tabulatorRef?.current?.tabulator?.download("html", "data.html", { style: true })) },
@@ -169,6 +169,8 @@ const ASINTable: React.FC<ASINTableProps> = (props) => {
   const saveChanges = async () => {
     if (onSave) {
       try {
+        debugger
+        const a =  tabulatorRef.current!.tabulator!.getSelectedRows();
         setProcessSaveChanges(true)
         Promise.all([
           onSave(dataSource.current),
@@ -211,6 +213,7 @@ const ASINTable: React.FC<ASINTableProps> = (props) => {
 
   const getMainStyle = () => (props.useMain === undefined) ? mainContentBorder : (props.useMain) ? mainContentBorder : {}
 
+  const copyVisable=rowSelection.length === 0
   return (
     <>
       <Space ref={tableAllContainerRef} direction='vertical' size={0}
@@ -266,7 +269,7 @@ const ASINTable: React.FC<ASINTableProps> = (props) => {
 
               <Divider type="vertical" />
               <CopyClipboard columns={activeColumns} dataSource={dataSource.current}
-                visible={{ tsv: true }} tabulator={tabulatorRef.current?.tabulator!} />
+                visible={copyVisable} tabulator={tabulatorRef.current?.tabulator!} />
 
               <Dropdown
                 menu={{ items: itemsDownloads, selectable: true, defaultSelectedKeys: ['1'] }}

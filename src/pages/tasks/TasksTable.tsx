@@ -1,7 +1,9 @@
-import { PoweroffOutlined, RetweetOutlined } from '@ant-design/icons';
-import { App, Button, Form, FormInstance, Input, InputRef, Progress, Table, Space, TableColumnsType,  TableColumnType } from 'antd';
-import type { ColumnsType, TableProps } from 'antd/es/table';
+import { PoweroffOutlined, RetweetOutlined, SearchOutlined } from '@ant-design/icons';
+import { App, Button, Form, FormInstance, Input, InputRef, Progress, Space, Table, TableColumnType, TableColumnsType } from 'antd';
+import type { TableProps } from 'antd/es/table';
+import type { FilterDropdownProps } from 'antd/es/table/interface';
 import React, { useContext, useEffect, useRef, useState } from 'react';
+import Highlighter from "react-highlight-words";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../AppContext';
 import { ContextType } from '../../Reduser';
@@ -11,9 +13,7 @@ import { IProccessInfo, ITaskInfo, StateTask, StateTaskUls, TypeTask } from '../
 import TaskTableDesc from './TaskTableDesc';
 import { addNewTaskFromId } from './Tasks.types';
 import { BaseTaskForm } from './add-form-task/BaseTaskForm';
-import type { FilterDropdownProps } from 'antd/es/table/interface';
-import { SearchOutlined } from '@ant-design/icons';
-import Highlighter from "react-highlight-words";
+
 
 interface DataType {
   key: string;
@@ -29,14 +29,17 @@ const TasksTable: React.FC<{ refresh: boolean, notificationApp: NotificationApp 
   const [searchText, setSearchText] = useState('');
   const [searchedColumn, setSearchedColumn] = useState('');
   const searchInput = useRef<InputRef>(null);
-  
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const userIDParam =Number( params.get('userId'))
+
   const [data, setData] = useState<ITaskInfo[]>([]); // Инициализируем state для данных
   const { state } = useContext<ContextType>(AppContext);
   const navigate = useNavigate()
   const { modal, message } = App.useApp();
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const location = useLocation();
+
   const [searchQuery, setSearchQuery] = useState('');
 
   let idTask = -1
@@ -113,7 +116,8 @@ const TasksTable: React.FC<{ refresh: boolean, notificationApp: NotificationApp 
     // Предположим, что это API вызов для получения данных
     const result = await TaskApi.getListTaskInfo({
        state: [0],//, StateTaskUls.lessIsNotComplite() - 1]
-       name:searchQuery
+       name:searchQuery,
+       id:userIDParam
     });
 
     //const result = await TaskApi.getActiveListTaskInfo();

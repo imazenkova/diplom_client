@@ -7,9 +7,7 @@ import { ContextType } from '../../../Reduser';
 import { ASINColumns } from '../asin-table-columns';
 
 export interface DownloadTableProps {
-  visible: {
-    tsv?: boolean
-  }
+  visible: boolean;
   dataSource: any[]
   columns: ASINColumns
   tabulator: Tabulator
@@ -79,7 +77,7 @@ const CopyClipboard: React.FC<DownloadTableProps> = (
 
   return (
     <>
-      {visible.tsv && <Button type="text" onClick={tsvCopy} shape="round" icon={<CopyOutlined />}
+      { <Button type="text" onClick={tsvCopy}  disabled={visible} shape="round" icon={<CopyOutlined />}
         size='middle' ></Button>}
     </>
   );

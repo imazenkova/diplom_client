@@ -48,8 +48,8 @@ const EbayListAddButtons: React.FC<{ data: ITaskInfoRes }> = ({ data }) => {
   const { state } = useContext<ContextType>(AppContext);
   return (
     <>
-      <Button type="text" shape="round" icon={<AppstoreAddOutlined />} size='middle'
-        onClick={() => addNewTask(data, message,state!)} >Подробно...</Button>
+      {/* <Button type="text" shape="round" icon={<AppstoreAddOutlined />} size='middle'
+        onClick={() => addNewTask(data, message,state!)} >Подробно...</Button> */}
     </>
   );
 };

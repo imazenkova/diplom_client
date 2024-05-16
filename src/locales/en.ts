@@ -258,7 +258,8 @@ export const en: Translation = {
     activity: "Activity",
     openTasks: "Open tasks",
     searchByEmail: " Search by email",
-    noTasks: "You don't have any tasks yet! You can create them ↓"
+    noTasks: "You don't have any tasks yet! You can create them ↓",
+    noUserTasks:"The user has no tasks yet!"
   },
   copyClipboard: {
     succCopy: 'Text copied. You can paste it into Google Sheets',

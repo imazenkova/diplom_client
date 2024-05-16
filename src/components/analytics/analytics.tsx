@@ -1,28 +1,26 @@
-import React, {useContext, useEffect, useState } from 'react';
-import { Doughnut, Line } from 'react-chartjs-2';
 import {
-    CategoryScale,
-    Chart as ChartJS,
-    Filler,
-    Legend,
-    LineElement,
-    LinearScale,
-    PointElement,
-    Title,
-    Tooltip,
-    ArcElement
-  } from 'chart.js';
+  ArcElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Filler,
+  Legend,
+  LineElement,
+  LinearScale,
+  PointElement,
+  Title,
+  Tooltip
+} from 'chart.js';
+import React, { useContext, useEffect, useState } from 'react';
+import { Doughnut, Line } from 'react-chartjs-2';
 
-  import { themeDef } from '../../styles/theme.app.def';
-import { TaskApi } from '../../api/task.api.cli';
-import { ITaskInfoRes } from '../../shared.lib/api/task.api';
-import { App, Button, Empty } from 'antd';
-import { ApiError } from '../../shared.lib/api/errors';
-import { ContextType, State } from '../../Reduser';
-import { AppContext } from '../../AppContext';
-import { ITaskInfo } from '../../shared.lib/api/task.api';
+  import { App, Button } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { AuthApi } from '../../api/auth.api.cli';
+import { AppContext } from '../../AppContext';
+import { ContextType } from '../../Reduser';
+import { TaskApi } from '../../api/task.api.cli';
+import { ApiError } from '../../shared.lib/api/errors';
+import { ITaskInfo } from '../../shared.lib/api/task.api';
+import { themeDef } from '../../styles/theme.app.def';
 
 ChartJS.register(
     CategoryScale,
@@ -57,10 +55,11 @@ ChartJS.register(
     const { state, dispatch } = useContext<ContextType>(AppContext);
     let userId = state?.profile?.user.id!;
     const typesLocal= state?.l.tasks.type;
-  
+  const isAdmin= state?.profile?.user.role ==="admin"
+
     const location = useLocation();
     const params = new URLSearchParams(location.search);
-    const userIDParam =Number( params.get('userId'))
+    const userIDParam =Number( params.get('userId')) || userId
 
     const navigate = useNavigate()
     const fetchData = async () => {
@@ -205,15 +204,30 @@ ChartJS.register(
 
   return (
     <div>
-      {countTaskByDate.length === 0 ?(
+      {countTaskByDate.length === 0 && !isAdmin ?(
+        <>
+        {isAdmin}
+        {countTaskByDate.length}
         <div 
-        style={{paddingBottom:'1%',display:"flex",justifyContent:'center'}}><h3>{state?.l.analytics.noTasks}</h3></div>):(<></>)}
+        style={{paddingBottom:'1%',display:"flex",justifyContent:'center'}}><h3>{state?.l.analytics.noTasks}</h3>
+        </div>
+        <div 
+         style={{paddingBottom:'1%',display:"flex",justifyContent:'center'}}>
+         <Button onClick={ ()=>{navigate(`/tasks?userId=${userIDParam}`)}}>{state?.l.analytics.openTasks}</Button>
+     
+     </div>
+     </>
+    ):(<>
+     <div 
+        style={{paddingBottom:'1%',display:"flex",justifyContent:'center'}}><h3>{state?.l.analytics.noUserTasks}</h3>
+        </div>
+    </>)}
       
     <div 
-    style={{paddingBottom:'1%',display:"flex",justifyContent:'center'}}>
-    <Button onClick={ ()=>{navigate(`/tasks?userId=${userId}`)}}>{state?.l.analytics.openTasks}</Button>
-
-</div>
+         style={{paddingBottom:'1%',display:"flex",justifyContent:'center'}}>
+         <Button onClick={ ()=>{navigate(`/tasks?userId=${userIDParam}`)}}>{state?.l.analytics.openTasks}</Button>
+     
+     </div>
 
     <div
     style={{

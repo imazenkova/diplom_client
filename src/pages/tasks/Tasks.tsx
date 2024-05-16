@@ -31,28 +31,28 @@ const addTaskMenu = (loc: Translation, nav: NavigateFunction): MenuProps['items'
     icon: <WBIcon style={buttonLeftIcon} />,
     children: [
       { key: 'wb1', label: loc.tasks.type.readListFromQueryWB, onClick: () => nav('/tasks?addtype=readListFromQueryWB') },
-      // { key: 'wb2', label: loc.tasks.type.posListFromQueryWB, onClick: () => nav('/tasks?addtype=posListFromQueryWB') },
-      // { key: 'wb3', label: loc.tasks.type.existListFromQuerySuplWB, onClick: () => nav('/tasks?addtype=existListFromQuerySuplWB') },
+      { key: 'wb2', label: loc.tasks.type.posListFromQueryWB, onClick: () => nav('/tasks?addtype=posListFromQueryWB') },
+      { key: 'wb3', label: loc.tasks.type.existListFromQuerySuplWB, onClick: () => nav('/tasks?addtype=existListFromQuerySuplWB') },
     ]
   },
-  // {
-  //   label: 'Amazon',
-  //   key: 'AmazonMenu',
-  //   icon: <AmazonOutlined style={buttonLeftIcon} />,
-  //   children: [
-  //     { key: 'amz1', label: loc.tasks.type.readUrlsAMZ, onClick: () => nav('/tasks?addtype=readUrlsAMZ') },
-  //     { key: 'amz2', label: loc.tasks.type.readAsinsAMZ, onClick: () => nav("/tasks?addtype=readAsinsAMZ") },
-  //     { key: 'amz3', label: loc.tasks.type.readListFromUrlAMZ, onClick: () => nav("/tasks?addtype=readListFromUrlAMZ") },
-  //   ]
-  // },
+  {
+    label: 'Amazon',
+    key: 'AmazonMenu',
+    icon: <AmazonOutlined style={buttonLeftIcon} />,
+    children: [
+      { key: 'amz1', label: loc.tasks.type.readUrlsAMZ, onClick: () => nav('/tasks?addtype=readUrlsAMZ') },
+      { key: 'amz2', label: loc.tasks.type.readAsinsAMZ, onClick: () => nav("/tasks?addtype=readAsinsAMZ") },
+      { key: 'amz3', label: loc.tasks.type.readListFromUrlAMZ, onClick: () => nav("/tasks?addtype=readListFromUrlAMZ") },
+    ]
+  },
   {
     label: 'eBay',
     key: 'eBayMenu',
     icon: <EBayIcon style={buttonLeftIcon} />,
     children: [
       { key: 'ebay1', label: loc.tasks.type.readUrlsEbay, onClick: () => nav("/tasks?addtype=readUrlsEbay") },
-      // { key: 'ebay2', label: loc.tasks.type.readListFromUrlEbay, onClick: () => nav("/tasks?addtype=readListFromUrlEbay") },
-      // { key: 'ebay3', label: loc.tasks.type.readPagesFromSellerEbay, onClick: () => nav("/tasks?addtype=readPagesFromSellerEbay") },
+      { key: 'ebay2', label: loc.tasks.type.readListFromUrlEbay, onClick: () => nav("/tasks?addtype=readListFromUrlEbay") },
+      { key: 'ebay3', label: loc.tasks.type.readPagesFromSellerEbay, onClick: () => nav("/tasks?addtype=readPagesFromSellerEbay") },
     ],
   },
   // {
@@ -77,12 +77,19 @@ const addTaskMenu = (loc: Translation, nav: NavigateFunction): MenuProps['items'
 
 export const PlusButtonTask = (loc: Translation) => {
   const nav = useNavigate();
+  const { state } = useContext<ContextType>(AppContext);
+const userId= state?.profile?.user.id;
+const location = useLocation();
+const params = new URLSearchParams(location.search);
+const userIDParam =Number( params.get('userId')) || userId
 
   //Добавили кнопку в хедар меню
   useHeaderMenu({
     items: [{
       key: '  _1', val: <>
-        {<Menu style={{ minWidth: '100vh' }} items={addTaskMenu(loc, nav)} triggerSubMenuAction='click' mode="horizontal" />}
+  {userId===userIDParam? (
+  <Menu style={{ minWidth: '100vh' }} items={addTaskMenu(loc, nav)} triggerSubMenuAction='click' mode="horizontal" />
+) : null}
       </>
     }]
   })

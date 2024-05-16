@@ -102,13 +102,13 @@ const SignIn: React.FC<SignInProps> = ({ onTabChange }) => {
               disabled={isLoading}
             />
             {state?.l.login.remember}
-            {/* <Link
+            <Link
               to="#"
               style={{ marginLeft: '6rem' }}
               onClick={() => setForgotPasswordVisible(true)}
             >
               {state?.l.login.forgotPassword}
-            </Link> */}
+            </Link>
           </div>
         </Form.Item>
 

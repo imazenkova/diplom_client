@@ -258,7 +258,8 @@ export const ua: Translation = {
     activity: "Активность",
     openTasks: "Открыть задачи",
     searchByEmail:"Поиск по почте",
-    noTasks:"У вас еще нет задач! Вы можете создать их ↓"
+    noTasks:"У вас еще нет задач! Вы можете создать их ↓",
+    noUserTasks:"У пользователя еще нет задач!"
   },
   copyClipboard: {
     succCopy: 'Текст скопійовано. Ви можете вставити його в Google Sheets',

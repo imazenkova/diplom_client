@@ -48,8 +48,8 @@ const AmazonListAddButtons: React.FC<{ data: ITaskInfoRes }> = ({ data }) => {
 
   return (
     <>
-      <Button type="text" shape="round" icon={<AppstoreAddOutlined />} size='middle'
-        onClick={() => addNewTask(data, message,state!)} >{state!.l.amazonEbayAddButtons.moreDetails}</Button>
+      {/* <Button type="text" shape="round" icon={<AppstoreAddOutlined />} size='middle'
+        onClick={() => addNewTask(data, message,state!)} >{state!.l.amazonEbayAddButtons.moreDetails}</Button> */}
     </>
   );
 };

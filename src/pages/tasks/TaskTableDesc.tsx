@@ -81,9 +81,9 @@ const TaskTableDesc: React.FC<TaskTableDescProps> = ({ id, state }) => {
         {/* {<Descriptions.Item label="Task Result [Obj]">{formatObj(data.taskResult, App.useApp,state)}</Descriptions.Item>} */}
       </Descriptions>}
 
-      {/* {data.state >= StateTask.complite && <Descriptions title="Task Result Error" layout="vertical"> */}
-        {/* {data.state >= StateTask.complite && <Descriptions.Item label="Result Errors">{formatObj(data.resultErrors, App.useApp,state)}</Descriptions.Item>} */}
-      {/* </Descriptions>} */}
+    {data.state >= StateTask.complite && <Descriptions title="Task Result Error" layout="vertical">
+    {data.state >= StateTask.complite && <Descriptions.Item label="Result Errors">{formatObj(data.resultErrors, App.useApp,state)}</Descriptions.Item>} 
+      </Descriptions>} 
 
     </>
   );
